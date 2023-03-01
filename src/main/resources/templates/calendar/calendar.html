@@ -10,41 +10,25 @@
             crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // 캘린더 생성 함수
             const calendarEl = document.getElementById('calendar');
-            // div 가 calendar 인 캘린더 객체 호출
             const calendar = new FullCalendar.Calendar(calendarEl, {
-                // 맨 처음 띄우는 캘린더 화면
                 initialView: 'dayGridMonth',
-                // 테마 : 부트스트랩 적용 / 미적용
-                // 원하는 부트스트랩 템플릿을 적용할 수 있음
                 themeSystem: 'bootstrap5',
-                // 툴바 설정
                 headerToolbar: {
                     left: 'prev,next',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                 },
-                // 언어 설정
                 locale: 'ko',
-                // 각 날짜를 길게 또는 간략하게 나타냄
                 weekday: 'short',
                 day: 'short',
-                // Allows a user to highlight multiple days or timeslots by clicking and dragging.
                 selectable: true,
-                // Whether to draw a “placeholder” event while the user is dragging.
                 selectMirror: true,
-                // Whether to automatically scoll the scroll-containers during event drag-and-drop and date selecting.
                 dragScroll: true,
-                // date 를 click 했을때 발생하는 이벤트(핸들러)
                 navLinks: true,
-                // allow "more" link when too many events 너무 많은 이벤트가 생성될시 more링크를 생성
                 dayMaxEvents: true,
-                //Whether or not to display a marker indicating the current time.
                 nowIndicator: true,
-                // 이미 생성된 이벤트를 클릭 시
                 eventClick: function (arg) {
-                    // 이벤트 오브젝트 값
                     const seq = arg.event.extendedProps.seq; // 이벤트 seq 값
                     const title = arg.event.title; // 이벤트 제목
                     const writer = arg.event.extendedProps.writer; // 작성자
@@ -68,7 +52,6 @@
                     $("#delBtn").css("display", "block");
                     $("#submitBtn").css("display", "none");
                     $("#closeBtn").css("display", "block");
-
                     // iso date value 를 형식에 맞게 수정
                     function timeFormat(t) {
                         return t.toISOString().substring(0, 16);
@@ -348,28 +331,18 @@
 
 
     $(document).ready(function (){
-
-        // document.ready 동작테스트
         console.log("DOMReadyPrintTest");
-
         // 일정추가 토글 동작
         $("#formToggle").click(function (){
             $("#form").toggle();
             $(".btns").toggle();
             $("#goMain").css("display","block");
         });
-        // 모바일로 접속시 캘린더 종료
-        let windowWidth = window.innerWidth;
-        if (windowWidth < 981) {
-            alert("캘린더 는 모바일 화면을 지원하지 않습니다.");
-            window.close();
-        }
-
     })
 
     // 일정 불러오기
     function select() {
-        location.href ="/calendar/selectAll"
+        location.href ="/calendar/selectAll";
     }
     // 일정삭제 기능
     function del() {
@@ -377,13 +350,13 @@
         const type =  $("#eventType").val();
         const writer = document.querySelector("#eventWriter").value;
         if (type === "개인"){
-            const title = $("#eventName").val();
+            let title = $("#eventName").val();
             if (confirm("<"+title+">"+"일정을 삭제하시겠습니까?")){
                 $("#eventWriter").attr("disabled",false);
                 location.href ="/calendar/deleteEvent?eventSeq="+seq+"&eventWriter="+writer;
             }
         } else{
-            const title = $("#eventName").val();
+            let title = $("#eventName").val();
             if (confirm("<"+title+">"+"일정을 삭제하시겠습니까?,team")){
                 $("#eventWriter").attr("disabled",false);
                 location.href ="/calendar/teamEventDel?eventSeq="+seq+"&eventWriter="+writer;
@@ -403,33 +376,25 @@
         let eventColor = document.querySelector("#eventColor").value;
         const writer = document.querySelector("#eventWriter").value;
 
-        console.log(eventColor);
-
+        // Query String
+        let queryStr = `"/calendar/teamEventUpd?eventSeq=${seq}
+                    &eventType=${type}
+                    &eventName=${title}
+                    &eventStart=${eventStart}
+                    &eventEnd=${eventEnd}
+                    &eventLocation=${eventLocation}
+                    &eventMemo=${eventMemo}
+                    &eventColor=${encodeURIComponent(eventColor)}
+                    &eventWriter=${writer}"`;
         // 타입이 팀 이라면
         if(type === "팀"){
             if (confirm("<"+title+">"+"일정을 수정하시겠습니까?")){
-                location.href ="/calendar/teamEventUpd?eventSeq="+seq
-                    +"&eventType="+type
-                    +"&eventName="+title
-                    +"&eventStart="+eventStart
-                    +"&eventEnd="+eventEnd
-                    +"&eventLocation="+eventLocation
-                    +"&eventMemo="+eventMemo
-                    +"&eventColor="+encodeURIComponent(eventColor)
-                    +"&eventWriter="+writer;
+                location.href = queryStr;
             }
 
         }else {
             if (confirm("<"+title+">"+"일정을 수정하시겠습니까?")){
-                location.href ="/calendar/updateEvent?eventSeq="+seq
-                    +"&eventType="+type
-                    +"&eventName="+title
-                    +"&eventStart="+eventStart
-                    +"&eventEnd="+eventEnd
-                    +"&eventLocation="+eventLocation
-                    +"&eventMemo="+eventMemo
-                    +"&eventColor="+encodeURIComponent(eventColor)
-                    +"&eventWriter="+writer;
+                location.href = queryStr;
             }
         }
 
