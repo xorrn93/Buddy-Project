@@ -38,7 +38,6 @@
                     const memo = arg.event.extendedProps.memo; // 메모
                     const location = arg.event.extendedProps.location; // 장소
                     const color = arg.event._def.ui.backgroundColor; // 이벤트 컬러값
-
                     // 애니메이션
                     $("#form").css("display", "block");
                     $(".btns").css("display", "block");
@@ -71,7 +70,6 @@
                     $("#eventColor").val(color);
                     $("#eventColor").css("background-color", color);
                     $("#goMain").css("display","none");
-
                 },
                 // date click event 날짜 클릭 이벤트
                 dateClick: function (arg) {
@@ -91,7 +89,6 @@
                         // ISO 형식으로 변환
                         return iso.substring(0, 16);
                     }
-
                     // date 를 형식에 맞게 format 하는 함수
                     // 원인 : date type에서 **기간**을 선택할때, 하루가 더 해져서 나옴
                     // 해결 : 시간에 하루만큼에 시간을 빼줘서 출력
@@ -103,7 +100,6 @@
                         let iso = dateOffset.toISOString();
                         return iso.substring(0, 16);
                     }
-
                     let startFormat = timezoneFormat(start);
                     let endFormat = dateFormat(end);
 
@@ -113,7 +109,6 @@
                     $("#delBtn").css("display", "none");
                     $("#submitBtn").css("display", "block");
                     $("#closeBtn").css("display", "block");
-
                     $("#eventSeq").val("");
                     $("#eventType").val("팀");
                     $("#eventName").val("");
@@ -124,7 +119,6 @@
                     const defaultColor = "#8621F7";
                     $("#eventColor").val(defaultColor);
                     $("#eventColor").css("background-color", "#8621F7");
-
 
                     // month view 가 true 일 때만, date 값을 조정
                     // day view 나 week view 에서는 date 값을 조정하지 않음,
@@ -148,7 +142,6 @@
                     $("#updateBtn").css("display", "none");
                     $("#delBtn").css("display", "none");
                     $("#submitBtn").css("display", "block");
-
                     $("#eventSeq").val("");
                     $("#eventType").val("팀");
                     $("#eventName").val("");
@@ -191,30 +184,18 @@
                                 });
 
                             })
-                            console.log(events);
                             successCallback(events);
                         }
                         , error: function (request, status, error) {
                             alert("code:" + request.status + error);
                         }
-
                     });
-
                 },
-            // other events here
-
-
-
             })
             //캘린더 렌더링 함수 호출
             calendar.render();
         });
-
-
-
-
     </script>
-
     <link rel="stylesheet" href="/static/css/calendar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -222,7 +203,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gothic+A1&family=Nanum+Gothic&family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <title>buddy 캘린더</title>
 </head>
-<body onload="winResize(this)">
+<body>
 <div class="header">
     <img src="/static/img/logo_m2.png" class="logoImg">
     <h1>캘린더</h1>
@@ -280,23 +261,20 @@
                     <button type="button" id="closeBtn" class="modalBtn" onclick="window.location.reload()" >취소</button>
                 </div>
             </div>
-
         <button id="goMain"><a href="/member/loginIndex">메인으로</a></button>
         </div>
     </div>
+    <!-- 캘린더 영역-->
     <div id='calendar'>
 
 
     </div>
-
-
 </div>
 <script>
     // 유효성 검사
     const eventNameRegex = /^[0-9a-zA-Zㄱ-힣 ]{0,20}$/;
     const eventLocationRegex = /^[0-9a-zA-Zㄱ-힣 ]{0,20}$/;
     const eventMemoRegex = /^[0-9a-zA-Zㄱ-힣\{\}\[\]\/?.,;:\|\)*~`!^\-_+\<\>@\#$%&\\\=\(\'\"  ]{0,500}$/m;
-
     $("#eventName").keyup(function (){
         let result = eventNameRegex.test(this.value);
         if (!result){
@@ -304,7 +282,6 @@
             this.value = "";
         }
     })
-
     $("#eventLocation").keyup(function (){
         let result = eventLocationRegex.test(this.value);
         if (!result){
@@ -327,9 +304,6 @@
 
 </script>
 <script >
-
-
-
     $(document).ready(function (){
         console.log("DOMReadyPrintTest");
         // 일정추가 토글 동작
@@ -349,24 +323,23 @@
         const seq = $("#eventSeq").val();
         const type =  $("#eventType").val();
         const writer = document.querySelector("#eventWriter").value;
+        let title = $("#eventName").val();
+        let queryStr = `"/calendar/deleteEvent?eventSeq=${seq}&eventWriter=${writer}"`;
+        $("#eventWriter").attr("disabled",false);
         if (type === "개인"){
-            let title = $("#eventName").val();
             if (confirm("<"+title+">"+"일정을 삭제하시겠습니까?")){
-                $("#eventWriter").attr("disabled",false);
-                location.href ="/calendar/deleteEvent?eventSeq="+seq+"&eventWriter="+writer;
+                location.href = queryStr;
             }
         } else{
-            let title = $("#eventName").val();
             if (confirm("<"+title+">"+"일정을 삭제하시겠습니까?,team")){
-                $("#eventWriter").attr("disabled",false);
-                location.href ="/calendar/teamEventDel?eventSeq="+seq+"&eventWriter="+writer;
+                location.href = queryStr;
             }
         }
     }
     // 업데이트 기능
     function update() {
         $("#eventWriter").attr("disabled",false);
-        let seq = $("#eventSeq").val();
+        const seq = $("#eventSeq").val();
         let type =$("#eventType").val();
         let title =$("#eventName").val();
         let eventStart =$("#eventStart").val();
@@ -375,7 +348,6 @@
         let eventMemo =$("#eventMemo").val();
         let eventColor = document.querySelector("#eventColor").value;
         const writer = document.querySelector("#eventWriter").value;
-
         // Query String
         let queryStr = `"/calendar/teamEventUpd?eventSeq=${seq}
                     &eventType=${type}
@@ -397,14 +369,11 @@
                 location.href = queryStr;
             }
         }
-
     }
-
     // evnetColor 값이 onchange 시 value 에 따라 배경색상 부여
     function selectColor(arg) {
         $("#eventColor").css("background",arg);
     }
-
 </script>
 </body>
 </html>
