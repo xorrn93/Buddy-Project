@@ -12,7 +12,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             // 캘린더 생성 함수
             const calendarEl = document.getElementById('calendar');
-
             // div 가 calendar 인 캘린더 객체 호출
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 // 맨 처음 띄우는 캘린더 화면
@@ -26,8 +25,6 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                 },
-                // 사용자 버튼 생성
-
                 // 언어 설정
                 locale: 'ko',
                 // 각 날짜를 길게 또는 간략하게 나타냄
@@ -41,7 +38,6 @@
                 dragScroll: true,
                 // date 를 click 했을때 발생하는 이벤트(핸들러)
                 navLinks: true,
-
                 // allow "more" link when too many events 너무 많은 이벤트가 생성될시 more링크를 생성
                 dayMaxEvents: true,
                 //Whether or not to display a marker indicating the current time.

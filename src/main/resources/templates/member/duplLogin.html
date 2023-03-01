@@ -11,7 +11,6 @@
     <script src="/static/js/console.js"></script>
 
     <style>
-        <style>
         @font-face {
             font-family: 'GyeonggiBatang';
             src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GyeonggiBatang.woff') format('woff');
@@ -57,13 +56,10 @@
         button:hover {
             opacity: 0.8;
         }
-        </style>
-
     </style>
 </head>
 <body>
     <h1>현재 로그인 상태입니다.<br>로그아웃하고 진행해주세요.</h1>
-
     <form action="/member/goMypage" method="post">
         <input type="hidden" th:value="${memberSeq}" name="memberSeq">
         <button>마이페이지로 돌아가기</button>
