@@ -1,10 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>비밀번호 찾기</title>
+    <script
+            src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
+
 <body>
-$END$
+
+<h1>비밀번호를 잊어 버리셨나요?😥</h1>
+<form action="/email/sendPW" id="sendEmail">
+  <input type="text" placeholder="이메일을 입력해주세요" id="inputEmail" name="memberEmail">
+   <button id="submitBtn" type="button">전송</button>
+</form>
+<script>
+    document.querySelector('#submitBtn').addEventListener('click',function (){
+        let userEmail = document.querySelector('#inputEmail').value;
+        let sendEmail = document.querySelector('#sendEamil');
+        const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        if (emailRegex.test(userEmail)){
+            $.ajax({
+                url: "/member/idCheck",
+                data: {
+                    "id" : userEmail
+                },error: function (){
+                    alert('error!');
+                }
+            }).done( function(rsp){
+                if (rsp === 'true'){
+                    sendEmail.submit();
+                    alert(`${userEmail} 로 임시비밀번호를 보내드렷습니다!`);
+                }else {
+                    alert("해당 이메일의 회원정보가 존재하지 않습니다.");
+                }
+            })
+        }else {
+            alert("올바른 이메일 방식을 입력해주세요!");
+        }
+    })
+
+
+</script>
 </body>
 </html>
