@@ -891,7 +891,7 @@ aside {
   min-height: 70px;
 }
 #profileView{
-  width: 100%;
+  /*width: 100%;*/
   text-align: left;
   line-height: 50px;
   margin-left: 10px;
