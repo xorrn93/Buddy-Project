@@ -53,6 +53,7 @@ form {
   max-width: 500px;
   padding: 20px;
   width: 100%;
+  position: relative;
 }
 
 input[class^="login"] {
@@ -73,7 +74,16 @@ a[class^="a"] {
   margin-top: 5px;
   margin-bottom: 10px;
 }
+.apwShow{
+  position: absolute;
+  right: 30px;
+  top: 90px;
+  /*opacity: 0.5;*/
+}
 
+.apwShow:hover{
+  opacity: 1;
+}
 .aLeft {
   float: left;
   margin-left: 10px;

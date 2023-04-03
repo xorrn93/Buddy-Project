@@ -27,6 +27,7 @@
       <form action="/member/login" method="post" id="loginForm">
         <input type="text" name="memberId" id="id" class="loginId" placeholder="이메일"/>
         <input type="password" name="memberPw" id="pw" class="loginPw" placeholder="비밀번호"/>
+        <a href="" id="pwShow" class="apwShow">👀</a>
         <a href="" id="sessionEmaill" class="aLeft">이메일 기억하기</a>
         <a href="/member/toFindPW" id="findPw" class="aRight">비밀번호 찾기</a>
         <button type="button" id="loginBtn" class="loginBtn">로그인</button>
@@ -139,6 +140,15 @@
             }
         });
       })
+      // 비밀번호 보이기 추가
+      $('#pwShow').mouseover(function (){
+        $('#pw').prop("type","text");
+      })
+
+      $('#pwShow').mouseleave(function (){
+        $('#pw').prop("type","password");
+      })
+
 
     </script>
 
