@@ -53,7 +53,7 @@
     $(function () {
         // 웹소켓 영역 시작
         // webSocket 인스턴스 생성
-        let ws = new WebSocket("ws://43.201.133.173/chat/" + chatRoomSeq);
+        let ws = new WebSocket("ws://localhost/chat/" + chatRoomSeq);
 
         //채팅방 목록을 출력해주는 ajax
         $.ajax({
@@ -843,7 +843,7 @@ face
 </script>
 
 <script>
-    //이모티콘 출력
+    // 이모티콘 출력
     $("#emoticonBtn").on("click",function (){
         $(".emoticonView").toggle();
         $(".fileView").hide();
