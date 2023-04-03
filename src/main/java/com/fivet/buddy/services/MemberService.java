@@ -139,4 +139,11 @@ public class MemberService {
     public String getMemberId(int memberSeq) {
         return memberDao.getMemberId(memberSeq);
     }
+
+    // 임시비밀번호 로 업데이트
+    public void updateTempPW(String tempPW, String userEmail) throws Exception{
+        memberDao.updateTempPW(getSHA512(tempPW),userEmail);
+    }
+
+
 }

@@ -123,4 +123,8 @@ public class MemberDAO {
     public String getMemberId(int memberSeq) {
         return memberMapper.getMemberId(memberSeq);
     }
+    // 임시비밀번호로  업데이트
+    public void updateTempPW(String tempPW, String userEmail) throws Exception{
+        memberMapper.updateTempPW(tempPW,userEmail);
+    }
 }

@@ -22,6 +22,7 @@ public interface MemberMapper {
     void updatePhone(MemberDTO memberDto);
     int selectMyProfilePw(MemberDTO memberDto);
     void updatePw(MemberDTO memberDto);
+    void updateTempPW(String tempPW, String userEmail);
 
     void insertProfileImg(int memberSeq);
     void updateProfileImg(MemberImgDTO memberImgDto);

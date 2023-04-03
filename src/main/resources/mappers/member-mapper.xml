@@ -108,6 +108,11 @@
         update member set member_pw = #{memberPw} where member_seq = #{memberSeq}
     </update>
 
+    <!-- 임시비밀번호 로 수정 -->
+    <update id="updateTempPW">
+        update member set member_pw = #{tempPW} where member_id = #{userEmail}
+    </update>
+
     <!-- 회원가입 시 프로필 이미지 기본값으로 추가 -->
     <insert id="insertProfileImg">
         insert into member_img values(#{memberImgMemberSeq},'/static/img/defaultProfileImg.png','/static/img/defaultProfileImg.png')
