@@ -120,9 +120,10 @@ public class EmailController {
     }
     // 임시비밀번호 발송 및 업데이트
     @PostMapping("sendPW")
-    public Map<String, Object> sendPW(@RequestBody Map<String, Object> params){
-//        ms.updateTempPW((String) params.get("body"),(String) params.get("userId"));
-        System.out.println((String)params.get("userId"));
+    public Map<String, Object> sendPW(@RequestBody Map<String, Object> params) throws Exception {
+        // 임시비밀번호로 업데이트
+        ms.updateTempPW((String) params.get("body"),(String) params.get("userId"));
+        // 이메일 전송
         return emailUtil.sendEmail( (String)params.get("userId")
                 , (String)params.get("subject")
                 , (String)params.get("body")
