@@ -79,7 +79,6 @@
           </ul>
         </div>
         <div class="myFileSize">
-
         </div>
       </div>
       <th:block th:if="${#strings.equals(isTeam,'true')}">
@@ -159,11 +158,11 @@
                   <th:block th:if="${#strings.equals(folder.getPersonalFolderType(),'user')}">
                     <th:block th:if="${#strings.equals(folder.getPersonalFolderShared(),'Y')}">
                       <button type="button" class="shareUrl nowShare" th:data-key="${folder.getPersonalFolderKey()}" th:data-status="${folder.getPersonalFolderShared()}">공유 중단</button>
-                      <input type="text" class="shareUrlText" th:value="${'http://43.201.133.173/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}" readonly>
-                      <button type="button" class="copyUrl nowShare copy" th:data-share-url="${'http://43.201.133.173/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}">복사</button>
+                      <input type="text" class="shareUrlText" th:value="${'http://localhost/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}" readonly>
+                      <button type="button" class="copyUrl nowShare copy" th:data-share-url="${'http://localhost/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}">복사</button>
                     </th:block>
                     <th:block th:if="${#strings.equals(folder.getPersonalFolderShared(),'N')}">
-                      <button type="button" class="shareUrl nowShare" th:data-share-url="${'http://43.201.133.173/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}" th:data-key="${folder.getPersonalFolderKey()}" th:data-status="${folder.getPersonalFolderShared()}">공유</button>
+                      <button type="button" class="shareUrl nowShare" th:data-share-url="${'http://localhost/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}" th:data-key="${folder.getPersonalFolderKey()}" th:data-status="${folder.getPersonalFolderShared()}">공유</button>
                     </th:block>
                   </th:block>
                 </li>
@@ -198,7 +197,7 @@
             </li>
           </ul>
         </div>
-        <input type="text" class="thisPageFolder" th:value="${'http://43.201.133.173/drive/detailDrive?resourceKey='+parentKey}" readonly>
+        <input type="text" class="thisPageFolder" th:value="${'http://localhost/drive/detailDrive?resourceKey='+parentKey}" readonly>
       </div>
     </section>
   </div>
@@ -753,7 +752,7 @@
           url: '/drive/access?access=N&key=' + thisKey,
           method: 'POST',
           success: function() {
-              location.reload();
+            location.reload();
           }
         });
       }

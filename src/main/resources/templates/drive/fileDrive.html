@@ -31,7 +31,7 @@
 <div class="wrap">
     <div class="header">
         <div class="logo">
-                <img src="/static/img/logo_m2.png" />
+            <img src="/static/img/logo_m2.png" />
             <h1>드라이브</h1>
         </div>
         <button id="asideClose">aside</button>
@@ -101,6 +101,7 @@
 
         <section class="fileSection">
             <!-- 헤더 -->
+
             <div class="fileHeader">
                 <h1 th:text="${nowFolder}"></h1>
             </div>
@@ -147,11 +148,11 @@
                                         <input type='text' class="printFolderName" th:value='${folder.getPersonalFolderName()}' th:id="${'folder' + folder.getPersonalFolderKey()}" disabled>
                                         <th:block th:if="${#strings.equals(folder.getPersonalFolderShared(),'Y')}">
                                             <button type="button" class="shareUrl nowShare" th:data-key="${folder.getPersonalFolderKey()}" th:data-status="${folder.getPersonalFolderShared()}">공유 중단</button>
-                                            <input type="text" class="shareUrlText" th:value="${'http://43.201.133.173/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}" readonly>
-                                            <button type="button" class="copyUrl nowShare copy" th:data-share-url="${'http://43.201.133.173/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}">복사</button>
+                                            <input type="text" class="shareUrlText" th:value="${'http://localhost/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}" readonly>
+                                            <button type="button" class="copyUrl nowShare copy" th:data-share-url="${'http://localhost/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}">복사</button>
                                         </th:block>
                                         <th:block th:if="${#strings.equals(folder.getPersonalFolderShared(),'N')}">
-                                            <button type="button" class="shareUrl nowShare" th:data-share-url="${'http://43.201.133.173/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}" th:data-key="${folder.getPersonalFolderKey()}" th:data-status="${folder.getPersonalFolderShared()}">공유</button>
+                                            <button type="button" class="shareUrl nowShare" th:data-share-url="${'http://localhost/drive/detailDrive?resourceKey='+folder.getPersonalFolderKey()}" th:data-key="${folder.getPersonalFolderKey()}" th:data-status="${folder.getPersonalFolderShared()}">공유</button>
                                         </th:block>
                                     </li>
                                 </th:block>
@@ -187,7 +188,7 @@
                         </li>
                     </ul>
                 </div>
-                <input type="text" class="thisPageFolder" th:value="${'http://43.201.133.173/drive/detailDrive?resourceKey='+parentKey}" readonly>
+                <input type="text" class="thisPageFolder" th:value="${'http://localhost/drive/detailDrive?resourceKey='+parentKey}" readonly>
             </div>
         </section>
     </div>
@@ -703,11 +704,11 @@
         document.execCommand('copy');
         $(this).after(bubble);
         // navigator.clipboard.writeText(inputValue).then(function() {
-            setTimeout(function() {
-                $(".bubble").fadeOut(1500, function(){
-                    $(".bubble").remove();
-                });
-            }, 1100);
+        setTimeout(function() {
+            $(".bubble").fadeOut(1500, function(){
+                $(".bubble").remove();
+            });
+        }, 1100);
         // });
     })
 
