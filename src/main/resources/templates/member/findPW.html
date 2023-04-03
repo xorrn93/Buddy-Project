@@ -33,8 +33,7 @@
                 }
             }).done( function(rsp){
                 if (rsp === 'true'){
-                    sendEmail.submit();
-                    alert(`${userEmail} 로 임시비밀번호를 보내드렷습니다!`);
+                    sendPW();
                 }else {
                     alert("해당 이메일의 회원정보가 존재하지 않습니다.");
                 }
@@ -43,8 +42,47 @@
             alert("올바른 이메일 방식을 입력해주세요!");
         }
     })
+    // 이메일 임시비밀번호 생성
+    let tempPW;
+    function getTempPW(){
+        $.ajax({
+            url: "/email/returnTempPW"
+            ,type: "post"
+            ,async: false
+        }).done(function(rsp){
+            tempPW = rsp;
+        })
+    }
 
+    function sendPW() {
+        getTempPW(); // 임시 비밀번호 값
+        let subject = "[Buddy] 임시비밀번호 입니다";
+        let body = tempPW;
+        let userEmail = document.querySelector('#inputEmail').value
+        // smtp 파라미터 값
+        var params = {
+            userId: userEmail,
+            subject: subject,
+            body: body
+        }
 
+        $.ajax({
+            url: "/email/sendPW"
+            , type: "POST"
+            , accept: "application/json"
+            , contentType: "application/json; charset=utf-8"
+            , data: JSON.stringify(params)
+            , dataType: "json"
+            ,success: function(){
+                alert(`${userEmail} 주소로 임시 비밀번호를 보내드렸습니다!`);
+                history.back();
+            }
+            ,error: function () {
+                alert("이메일 전송에 실패하였습니다. 이메일을 다시 확인해주세요.");
+                location.reload();
+            }
+        })
+    }
 </script>
 </body>
 </html>
