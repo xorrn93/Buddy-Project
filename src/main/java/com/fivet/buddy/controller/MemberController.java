@@ -1,6 +1,5 @@
 package com.fivet.buddy.controller;
 
-import com.fivet.buddy.dao.TeamMemberDAO;
 import com.fivet.buddy.dto.*;
 import com.fivet.buddy.services.*;
 import com.fivet.buddy.util.FileUtil;
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -92,6 +89,13 @@ public class MemberController {
             model.addAttribute("userInfo",memberDto);
         }
         return "member/signup";
+    }
+
+    // 비밀번호 찾기
+
+    @RequestMapping("toFindPW")
+    public String toFindPw() throws Exception {
+        return "member/findPW";
     }
 
     // 회원가입 (signUp)
