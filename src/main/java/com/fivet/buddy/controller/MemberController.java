@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
@@ -124,7 +122,6 @@ public class MemberController {
 
     // 로그인
     @Transactional
-    @ResponseBody
     @PostMapping("login")
     public String login(MemberDTO memberDto, Model model) throws Exception{
         // 세션확인
@@ -145,8 +142,8 @@ public class MemberController {
             return memberIndex;
         }else{
           // 로그인 정보 없을 시, 알림창 띄움
-            String message = "<script>alert('아이디 및 패스워드를 확인해주세요!');location.href='/';</script>";
-            return message;
+//            model.addAttribute("msg","아이디 및 패스워드를 확인해주세요!");
+            return "redirect:/";
         }
     }
 
