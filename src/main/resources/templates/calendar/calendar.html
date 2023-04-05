@@ -368,6 +368,12 @@
     function selectColor(arg) {
         $("#eventColor").css("background",arg);
     }
+
+
+    window.onresize = function (){
+        let innerWidth = window.innerWidth;
+            innerWidth <= "600" ? location.href = "moblieCal.html" : location.href = "/" ;
+     }
 </script>
 </body>
 </html>
