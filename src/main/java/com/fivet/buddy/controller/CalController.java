@@ -164,6 +164,10 @@ public class CalController {
 
     }
 
+    @RequestMapping(value = "goMobile")
+    public String goMobile(){
+        return "calendar/mCalendar";
+    }
 
 
 }
