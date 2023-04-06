@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset='utf-8'/>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <script src='/static/fullcalendar/dist/index.global.js'></script>
     <script src="/static/fullcalendar/packages/core/locales-all.global.js"></script>
     <script
@@ -9,7 +9,26 @@
             integrity="sha256-pkn2CUZmheSeyssYw3vMp1+xyub4m+e+QK4sQskvuo4="
             crossorigin="anonymous"></script>
     <script>
+
         document.addEventListener('DOMContentLoaded', function () {
+            console.log("DOMReadyPrintTest");
+
+            let windowInner = window.visualViewport.width;
+            // window.innerWidth 는 모바일에서 적용안됌
+            if(windowInner < 600){
+                location.href = "/calendar/goMobile";
+            }
+
+            // Browser 창이 600 보다 낮을 때, 모바일 캘린더로 이동
+            window.addEventListener('resize',function (){
+                let windowInner = window.visualViewport.width;
+                // window.innerWidth 는 모바일에서 적용안됌
+                if(windowInner < 600){
+                    location.href = "/calendar/goMobile";
+                }
+            },true)
+
+            // 캘린더 스크립트
             const calendarEl = document.getElementById('calendar');
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
@@ -270,50 +289,15 @@
 
     </div>
 </div>
-<script>
-    // 유효성 검사
-    const eventNameRegex = /^[0-9a-zA-Zㄱ-힣 ]{0,20}$/;
-    const eventLocationRegex = /^[0-9a-zA-Zㄱ-힣 ]{0,20}$/;
-    const eventMemoRegex = /^[0-9a-zA-Zㄱ-힣\{\}\[\]\/?.,;:\|\)*~`!^\-_+\<\>@\#$%&\\\=\(\'\"  ]{0,500}$/m;
-    $("#eventName").keyup(function (){
-        let result = eventNameRegex.test(this.value);
-        if (!result){
-            alert("일정 제목은 20자 내로 작성해주세요!😥");
-            this.value = "";
-        }
-    })
-    $("#eventLocation").keyup(function (){
-        let result = eventLocationRegex.test(this.value);
-        if (!result){
-            alert("일정 장소는 20자 내로 작성해주세요!😥");
-            this.value = "";
-        }
-    })
 
-    $("#eventMemo").keyup(function (){
-        let result = eventMemoRegex.test(this.value);
-        if (!result){
-            alert("일정 메모는 500자 내로 작성해주세요!😥");
-            this.value = "";
-        }else {
-            $(this).val().replace("<", "&lt;");
-        }
-    })
-
-
-
-</script>
 <script >
-    $(document).ready(function (){
-        console.log("DOMReadyPrintTest");
-        // 일정추가 토글 동작
-        $("#formToggle").click(function (){
-            $("#form").toggle();
-            $(".btns").toggle();
-            $("#goMain").css("display","block");
-        });
-    })
 
+    // 일정추가 토글 동작
+    $("#formToggle").click(function (){
+        $("#form").toggle();
+        $(".btns").toggle();
+        $("#goMain").css("display","block");
+    });
     // 일정 불러오기
     function select() {
         location.href ="/calendar/selectAll";
@@ -368,6 +352,38 @@
     function selectColor(arg) {
         $("#eventColor").css("background",arg);
     }
+
+
+</script>
+<script>
+    // 유효성 검사
+    const eventNameRegex = /^[0-9a-zA-Zㄱ-힣 ]{0,20}$/;
+    const eventLocationRegex = /^[0-9a-zA-Zㄱ-힣 ]{0,20}$/;
+    const eventMemoRegex = /^[0-9a-zA-Zㄱ-힣\{\}\[\]\/?.,;:\|\)*~`!^\-_+\<\>@\#$%&\\\=\(\'\"  ]{0,500}$/m;
+    $("#eventName").keyup(function (){
+        let result = eventNameRegex.test(this.value);
+        if (!result){
+            alert("일정 제목은 20자 내로 작성해주세요!😥");
+            this.value = "";
+        }
+    })
+    $("#eventLocation").keyup(function (){
+        let result = eventLocationRegex.test(this.value);
+        if (!result){
+            alert("일정 장소는 20자 내로 작성해주세요!😥");
+            this.value = "";
+        }
+    })
+
+    $("#eventMemo").keyup(function (){
+        let result = eventMemoRegex.test(this.value);
+        if (!result){
+            alert("일정 메모는 500자 내로 작성해주세요!😥");
+            this.value = "";
+        }else {
+            $(this).val().replace("<", "&lt;");
+        }
+    })
 
 </script>
 </body>

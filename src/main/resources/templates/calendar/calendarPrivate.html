@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset='utf-8'/>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
   <script src='/static/fullcalendar/dist/index.global.js'></script>
   <script src="/static/fullcalendar/packages/core/locales-all.global.js"></script>
   <script
@@ -434,6 +434,15 @@
   function selectColor(arg) {
     $("#eventColor").css("background",arg);
   }
+
+  // Browser 창이 600 보다 낮을 때, 모바일 캘린더로 이동
+  window.addEventListener('resize',function (){
+    let windowInner = window.visualViewport.width;
+    // window.innerWidth 는 모바일에서 적용안됌
+    if(windowInner < 600){
+      location.href = "/calendar/goMobile";
+    }
+  },true)
 
 </script>
 </body>
