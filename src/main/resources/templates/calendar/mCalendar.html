@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>buddy 캘린더</title>
+  <script src='/static/fullcalendar/dist/index.global.js'></script>
+  <script src="/static/fullcalendar/packages/core/locales-all.global.js"></script>
+  <script
+          src="https://code.jquery.com/jquery-3.6.2.js"
+          integrity="sha256-pkn2CUZmheSeyssYw3vMp1+xyub4m+e+QK4sQskvuo4="
+          crossorigin="anonymous"></script>
+  </script>
+  <link rel="stylesheet" href="/static/css/calendar.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gothic+A1&family=Nanum+Gothic&family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const calendarEl = document.getElementById('calendar');
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'listWeek',
+        themeSystem: 'bootstrap5',
+        headerToolbar: {
+          left: 'prev',
+          center: 'title',
+          right: 'next'
+        },
+        locale: 'ko',
+        weekday: 'short',
+        day: 'short',
+        selectable: true,
+        selectMirror: true,
+        dragScroll: true,
+        navLinks: true,
+        dayMaxEvents: true,
+        nowIndicator: true,
+        eventClick: function (arg) {
+          const seq = arg.event.extendedProps.seq; // 이벤트 seq 값
+          const title = arg.event.title; // 이벤트 제목
+          const writer = arg.event.extendedProps.writer; // 작성자
+          const type = arg.event.extendedProps.type; // 팀/ 개인 타입
+          const eventStart = arg.event._instance.range.start; // 시작날짜 및 시간
+          const eventEnd = arg.event._instance.range.end; // 마감날짜 및 시간
+          const memo = arg.event.extendedProps.memo; // 메모
+          const location = arg.event.extendedProps.location; // 장소
+          const color = arg.event._def.ui.backgroundColor; // 이벤트 컬러값
+          // 애니메이션
+          $("#form").css("display", "block");
+          $(".btns").css("display", "block");
+          // 이벤트 seq 및 작성자는 hidden 처리 되어있음
+          // controller 에서 값을 넣어주기 때문에 disabled 로 처리
+          $("#eventSeq").removeAttr("disabled");
+          $("#eventWriter").removeAttr("disabled");
+          $("#eventWriter").attr("type", "text");
+          //수정 및 삭제 버튼 생성
+          $("#updateBtn").css("display", "block");
+          $("#delBtn").css("display", "block");
+          $("#submitBtn").css("display", "none");
+          $("#closeBtn").css("display", "block");
+          // iso date value 를 형식에 맞게 수정
+          function timeFormat(t) {
+            return t.toISOString().substring(0, 16);
+          }
+          // 데이터 대입
+          $("#eventType").val(type);
+          $("#eventSeq").val(seq);
+          // 타입을 나타내는 텍스트 제외
+          $("#eventName").val(title.replace("[팀]", "").replace("[개인]", ""));
+          $("#eventWriter").val(writer);
+          $("#eventMemo").val(memo);
+          $("#eventLocation").val(location);
+          $("#eventStart").attr("data-placeholder", timeFormat(eventStart));
+          $("#eventStart").val(timeFormat(eventStart));
+          $("#eventEnd").attr("data-placeholder", timeFormat(eventEnd));
+          $("#eventEnd").val(timeFormat(eventEnd));
+          $("#eventColor").val(color);
+          $("#eventColor").css("background-color", color);
+          $("#goMain").css("display","none");
+        },
+        // date click event 날짜 클릭 이벤트
+        dateClick: function (arg) {
+
+        },
+        select: function (arg) {
+          const start = arg.start
+          const end = arg.end
+          // date 를 timezone 에 맞게 format
+          // date 는 loacale 에 영향을 받기 때문에 kor 시간으로 설정 해줘야 함
+          function timezoneFormat(d) {
+            let offset = d.getTimezoneOffset() * 60000;
+            // timezone Offset
+            let dateOffset = new Date(d.getTime() - offset);
+            // timezone Setting
+            let iso = dateOffset.toISOString();
+            // ISO 형식으로 변환
+            return iso.substring(0, 16);
+          }
+          // date 를 형식에 맞게 format 하는 함수
+          // 원인 : date type에서 **기간**을 선택할때, 하루가 더 해져서 나옴
+          // 해결 : 시간에 하루만큼에 시간을 빼줘서 출력
+          // input date type 에 value 를 넣기 위해서 는 IOS 방식으로 변환해야함
+          function dateFormat(d) {
+            let offset = d.getTimezoneOffset() * 60000;
+            const day = 8.64e+7; // 하루만큼에 시간을 **밀리초**단위로 계산한 값
+            let dateOffset = new Date(d.getTime() - offset - day);
+            let iso = dateOffset.toISOString();
+            return iso.substring(0, 16);
+          }
+          let startFormat = timezoneFormat(start);
+          let endFormat = dateFormat(end);
+
+          $("#form").css("display", "block");
+          $(".btns").css("display", "block");
+          $("#updateBtn").css("display", "none");
+          $("#delBtn").css("display", "none");
+          $("#submitBtn").css("display", "block");
+          $("#closeBtn").css("display", "block");
+          $("#eventSeq").val("");
+          $("#eventType").val("팀");
+          $("#eventName").val("");
+          $("#eventWriter").val("");
+          $("#eventWriter").attr("type", "hidden");
+          $("#eventLocation").val("");
+          $("#eventMemo").val("");
+          const defaultColor = "#8621F7";
+          $("#eventColor").val(defaultColor);
+          $("#eventColor").css("background-color", "#8621F7");
+
+          // month view 가 true 일 때만, date 값을 조정
+          // day view 나 week view 에서는 date 값을 조정하지 않음,
+          // 하루만 선택 했을때도 하루만큼 에 시간이 빠지기 때문
+          let monthViewTrue = $('button[title="월"]').attr("aria-pressed");
+          // aria-pressed = true
+          if (monthViewTrue === "true") {
+            $("#eventStart").val(startFormat);
+            $("#eventEnd").val(endFormat);
+          }// aria-pressed = false
+          else {
+            $("#eventStart").val(startFormat);
+            $("#eventEnd").val(timezoneFormat(end));
+          }
+          $("#goMain").css("display","none");
+
+        },
+
+        unselect: function () {
+          $("#form").css("display", "block");
+          $("#updateBtn").css("display", "none");
+          $("#delBtn").css("display", "none");
+          $("#submitBtn").css("display", "block");
+          $("#eventSeq").val("");
+          $("#eventType").val("팀");
+          $("#eventName").val("");
+          $("#eventWriter").val("");
+          $("#eventWriter").attr("type", "hidden");
+          $("#eventLocation").val("");
+          $("#eventMemo").val("");
+          $("#goMain").css("display","none");
+
+        },
+        // events object 이벤트 객체 [일정의 데이터가 담기는 공간 json 타입]
+        // 이벤트 오브젝트 예제
+        // events : [
+        //     {
+        //         id: 'a',
+        //         title: 'my event',
+        //         start: '2023-01-02',
+        //         color: '#8621F7'
+        //     }
+        //
+        // ]
+
+        events: function (info, successCallback) {
+          $.ajax({
+            url: "/calendar/selectAll",
+            success: function (resp) {
+              const events = [];
+              let jsonParse = JSON.parse(resp);
+              $.each(jsonParse, function (index, element) {
+                events.push({
+                  seq: element.eventSeq,
+                  type: element.eventType,
+                  title: "[" + element.eventType + "]" + element.eventName,
+                  writer: element.eventWriter,
+                  location: element.eventLocation,
+                  memo: element.eventMemo,
+                  start: element.eventStart,
+                  end: element.eventEnd,
+                  color: element.eventColor
+                });
+
+              })
+              successCallback(events);
+            }
+            , error: function (request, status, error) {
+              alert("code:" + request.status + error);
+            }
+          });
+        },
+      })
+      //캘린더 렌더링 함수 호출
+      calendar.render();
+    });
+  </script>
+</head>
+<body>
+
+<div class="header">
+  <img src="/static/img/logo_m2.png" class="logoImg">
+  <h1>캘린더</h1>
+  <div class="headerBtns">
+    <button onclick="location.href='/'" class="calType checked" id="goAll">
+      뒤로가기
+    </button>
+  </div>
+
+</div>
+
+<div id='calendar'></div>
+  <script>
+    // Browser 창이 600 보다 낮을 때, 모바일 캘린더로 이동
+    window.addEventListener('resize',function (){
+      let windowInner = window.visualViewport.width;
+      if(windowInner > 600){
+        location.href = "/calendar/moveCalendar";
+      }
+    },true)
+  </script>
+</body>
+</html>
