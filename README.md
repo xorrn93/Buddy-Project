@@ -44,16 +44,16 @@
 - 사이드 프로젝트를 진행할 때, **jandi** 서비스를 많이 이용하면서 우리도 한번 이런 서비스를 만들어보면 어떨까 하는 생각에 프로젝트를 구상하게 되었습니다.
 
 # UI
-> 로그인 화면
+- 로그인 화면
 ![www buddychat site_](https://user-images.githubusercontent.com/80880540/233840562-5232af9f-4de0-4774-be76-7c445d74245f.png)
 
-> 캘린더 화면
+- 캘린더 화면
 ![www buddychat site_calendar_moveCalendar](https://user-images.githubusercontent.com/80880540/233840835-74530dbb-ba27-4d4e-802f-a2782d64773d.png)
 
-> 드라이브 화면
+- 드라이브 화면
 ![www buddychat site_drive_toFileDrive](https://user-images.githubusercontent.com/80880540/233840864-f0d7a593-f5c9-43b4-8455-f9cd6886f148.png)
 
-> 채팅 화면
+- 채팅 화면
 
 
 # 스텍
