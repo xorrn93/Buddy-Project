@@ -8,13 +8,13 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class BuddyApplication extends SpringBootServletInitializer {
 
-    public static void main(String[] args) {
-        SpringApplication.run(BuddyApplication.class, args);
-    }
-
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder){
         return builder.sources(BuddyApplication.class);
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(BuddyApplication.class, args);
     }
 
 }
