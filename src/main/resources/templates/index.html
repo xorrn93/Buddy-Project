@@ -87,13 +87,13 @@
           <div class="info">
             <h1 id="teamName" class="name" th:text="${teamDtoList.teamName}"></h1>
           </div>
-          <form action="/team/goTeam" method="post" style="width: 0px;" >
+          <form action="/team/goTeam" method="post" style="width: 0px; position: static" >
             <input type="hidden" th:value="${teamDtoList.teamSeq}" th:name="teamSeq">
             <button id="goTeam" class="floatBtn">
               팀으로 가기
             </button>
           </form>
-          <form action="/team/goTeamSetting" method="post" style="width: 0px;">
+          <form action="/team/goTeamSetting" method="post" style="width: 0px; position: static ">
             <input type="hidden" th:value="${teamDtoList.teamSeq}" name="teamSeq">
           <button id="managementTeam" class="floatBtn" th:if="${teamDtoList.teamOwnerSeq==session.memberSeq || SubManagerMember>0}">
             팀 관리
